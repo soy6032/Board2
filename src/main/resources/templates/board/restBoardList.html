@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+<script src="/js/jquery-3.5.1.js" th:src="@{/js/jquery-3.5.1.js}"></script>
+<script src="/js/popper.js" th:src="@{/js/popper.js}"></script>
+<script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="jumbotron">
+				<h1 th:text="#{page.list}">리스트 페이지</h1>
+			</div>
+		</div>
+	</header>
+	<main class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-hover table-striped">
+					<colgroup>
+						<col width="15%" />
+						<col width="*%" />
+						<col width="15%" />
+						<col width="20%" />
+					</colgroup>
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.size(datas)} > 0" th:each="item : ${datas}">
+							<td th:text="${item.boardIdx}"></td>
+							<td>
+								<a href="/board/" th:attrappend="href=${item.boardIdx}" th:text="${item.title}"></a>
+							</td>
+							<td th:text="${item.hitCnt}">
+							<td th:text="${item.createdDatetime}"></td>
+						</tr>
+						<tr th:unless="${#lists.size(datas)} > 0">
+							<td colspan="4">조회된 결과가 없습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 offset-sm-6 d-flex justify-content-end">
+				<a class="btn btn-primary" href="/board/write">글쓰기</a>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+<script src="/js/jquery-3.5.1.js" th:src="@{/js/jquery-3.5.1.js}"></script>
+<script src="/js/popper.js" th:src="@{/js/popper.js}"></script>
+<script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+
+<script>
+	$(document).ready(function() {
+		/* id가 boardIdx인 input 태그의 value값을 가져옴 */
+		var boardIdx = $("#boardIdx").val();
+		
+		$("#btnList").on("click", function() {
+			location.href="/board/"
+		});
+		
+		$("#btnEdit").on("click", function() {
+			/* id값이 method인 html(input)태그의 value에 'put'을 입력 
+			스프링 rest api 규칙에 의해서 RequestMethod.Put 으로 변경*/
+			$("#method").val("PUT");
+			/* $("#frm")[0]은 첫번째 form태그를 선택 */
+			var frm = $("#frm")[0];
+			frm.action = "/board/" + boardIdx;
+			frm.submit();
+		});
+		
+		$("#btnDel").on("click", function() {
+			$("#method").val("DELETE");
+			var frm = $("#frm")[0];
+			frm.action = "/board/" + boardIdx;
+			frm.submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<header class="container">
+		<div class="jumbotron">
+			<h2>게시글 확인</h2>
+		</div>
+	</header>
+	<main class="container">
+		<div class="row">
+			<div class="col-sm-6 mx-auto">
+				<form id="frm" method="POST">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">글번호</span>
+						</div>
+						<input type="text" class="form-control" th:value="${data.boardIdx}">
+						<div class="input-group-prepend">
+							<span class="input-group-text">조회수</span>
+						</div>
+						<input type="text" class="form-control" th:value="${data.hitCnt}">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">작성자</span>
+						</div>
+						<input type="text" class="form-control" th:value="${data.createdId}">
+						<div class="input-group-prepend">
+							<span class="input-group-text">작성일</span>
+						</div>
+						<input type="text" class="form-control" th:value="${data.createdDatetime}">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">제 목</span>
+						</div>
+						<input type="text" class="form-control" th:value="${data.title}" id="title" name="title" placeholder="수정 시 제목을 입력하세요" >
+					</div>
+					<div class="input-group">
+						<textarea rows="5" cols="80" class="form-control" th:text="${data.contents}" id="contents" name="contents" placeholder="수정 시 내용을 입력하세요"></textarea>
+					</div>
+					<input type="hidden" id="boardIdx" name="boardIdx" th:value="${data.boardIdx}">
+					<input type="hidden" id="method" name="_method">
+					<div class="row">
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-primary btn-block" id="btnList">목록으로</button>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-success btn-block" id="btnEdit">수정하기</button>
+						</div>
+						<div class="col-sm-4">
+							<button type="button" class="btn btn-danger btn-block" id="btnDel">삭제하기</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
